@@ -133,10 +133,10 @@ typedef struct dir_data {
 #endif
 
 #ifdef Rtt_NXS_ENV
-	int link(const char*, const char*) { errno = EACCES; return -1; }
-	int symlink(const char*, const char*) { errno = EACCES; return -1; }
-	ssize_t readlink(const char* __restrict, char* __restrict, size_t) { errno = EACCES; return -1; }
-	int utime(const char*, const struct utimbuf*) { errno = EACCES;  return -1; }
+	int link(const char* a, const char* b) { errno = EACCES; return -1; }
+	int symlink(const char* a, const char* b) { errno = EACCES; return -1; }
+	ssize_t readlink(const char* __restrict a, char* __restrict b, size_t c) { errno = EACCES; return -1; }
+	int utime(const char* a, const struct utimbuf* b) { errno = EACCES;  return -1; }
 	int lstat(const char* file_name, struct stat* buf) { errno = EACCES;  return -1; }
 #endif
 
