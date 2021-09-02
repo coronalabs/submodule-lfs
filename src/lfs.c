@@ -132,6 +132,14 @@ typedef struct dir_data {
 #define LSTAT_FUNC lstat
 #endif
 
+#ifdef Rtt_NXS_ENV
+	int link(const char*, const char*) { errno = EACCES; return -1; }
+	int symlink(const char*, const char*) { errno = EACCES; return -1; }
+	ssize_t readlink(const char* __restrict, char* __restrict, size_t) { errno = EACCES; return -1; }
+	int utime(const char*, const struct utimbuf*) { errno = EACCES;  return -1; }
+	int lstat(const char* file_name, struct stat* buf) { errno = EACCES;  return -1; }
+#endif
+
 /*
 ** Utility functions
 */
