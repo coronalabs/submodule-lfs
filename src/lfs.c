@@ -138,6 +138,7 @@ typedef struct dir_data {
 	ssize_t readlink(const char* __restrict a, char* __restrict b, size_t c) { errno = EACCES; return -1; }
 	int utime(const char* a, const struct utimbuf* b) { errno = EACCES;  return -1; }
 	int lstat(const char* file_name, struct stat* buf) { errno = EACCES;  return -1; }
+	int is_mounted(const char* path);
 #endif
 
 /*
@@ -618,6 +619,16 @@ static int dir_iter_factory (lua_State *L) {
 	else
 	  sprintf_s (d->pattern, sizeof(d->pattern), "%s/*", path);
 #else
+
+#if defined(Rtt_NXS_ENV) 
+	if (!is_mounted(path))
+	{
+		d->dir = NULL;
+		luaL_error(L, "not mounted %s", path);
+		return 2;
+	}
+#endif
+
 	d->dir = opendir (path);
 	if (d->dir == NULL)
           luaL_error (L, "cannot open %s: %s", path, strerror (errno));
